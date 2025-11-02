@@ -3,7 +3,9 @@ import { Button } from "../components/ui/button";
 import { Card, CardHeader, CardContent } from "../components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion";
 import GradualBlur from "../components/ui/gradual-blur";
-import LiquidEther from "../components/ui/LiquidEther";
+import PixelCard from "../components/ui/PixelCard/PixelCard";
+import ElectricBorder from "../components/ui/ElectricBorder/ElectricBorder";
+
 import Spline from "@splinetool/react-spline";
 import { toast } from "sonner";
 import { events, team, sparks } from "../mock";
@@ -16,76 +18,7 @@ const NeonText = ({ children, className = "" }) => (
     </h2>
 );
 
-// 3D tilt team card
-const TeamCard3D = ({ member, index }) => {
-    const innerRef = useRef(null);
-    const [isHovered, setIsHovered] = useState(false);
 
-    const handleMove = (e) => {
-        const el = innerRef.current;
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const px = (e.clientX - rect.left) / rect.width;
-        const py = (e.clientY - rect.top) / rect.height;
-        const rx = (0.5 - py) * 10;
-        const ry = (px - 0.5) * 12;
-        el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
-    };
-
-    const handleEnter = () => {
-        setIsHovered(true);
-    };
-
-    const handleLeave = () => {
-        const el = innerRef.current;
-        if (!el) return;
-        el.style.transform = `rotateX(0deg) rotateY(0deg)`;
-        setIsHovered(false);
-    };
-
-    const imgUrl = `https://picsum.photos/seed/${member.id}-${index}/640/880`;
-
-    return (
-        <div className="card3d reveal-scale">
-            <div
-                ref={innerRef}
-                className="card3d-inner"
-                onMouseMove={handleMove}
-                onMouseEnter={handleEnter}
-                onMouseLeave={handleLeave}
-            >
-                <div className="relative overflow-hidden rounded-xl border border-white/15 bg-[#0b0b0b]">
-                    <img
-                        src={imgUrl}
-                        alt={`${member.name} - ${member.role}`}
-                        className={`w-full h-72 object-cover transition duration-500 filter contrast-110 ${isHovered
-                            ? 'grayscale-0 saturate-150'
-                            : 'grayscale'
-                            }`}
-
-                    />
-                    <div
-                        className={`absolute inset-0 pointer-events-none transition-opacity ${isHovered ? 'opacity-100' : 'opacity-0'
-                            }`}
-                        style={{
-                            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.25), 0 0 60px rgba(0,255,209,0.12)"
-                        }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <div className="flex items-center justify-between">
-                            <div>
-                                <div className="text-white/90 font-semibold tracking-tight">{member.name}</div>
-                                <div className="text-white/60 text-xs">{member.role}</div>
-                            </div>
-                            <div className="w-2 h-8 bg-[#00FFD1]" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
 
 export default function LandingPage() {
     const [audioOn, setAudioOn] = useState(false);
@@ -264,31 +197,50 @@ export default function LandingPage() {
                 <div className="mb-10">
                     <NeonText className="display-medium reveal-fade">The Bootcamp</NeonText>
                     <p className="body-small text-white/60 reveal-fade" data-delay="80ms">
-                        Hover to preview. Click to mock-expand.
+                        Signature events that shape builders.
                     </p>
                 </div>
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-3 gap-12">
                     {events.map((ev, i) => (
-                        <Card key={ev.id} className="group bg-[#121212] border-white/15 rounded-xl overflow-hidden relative dark-hover transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(0,255,209,0.15)] reveal-up" data-delay={`${i * 80}ms`}>
-                            <CardHeader className="p-0">
-                                <div className="p-6">
-                                    <div className="text-xs tracking-wide text-[#00FFD1]">{ev.tag}</div>
-                                    <NeonText className="heading-1 mt-1">{ev.title}</NeonText>
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-6 pt-0">
-                                <p className="body-small text-white/70 min-h-[72px]">{ev.description}</p>
-                                <div className="flex items-center justify-between mt-6">
-                                    <span className="text-white/50 text-xs">{ev.meta}</span>
-                                    <Button className="btn-secondary" onClick={() => toast("Mock: Details coming soon")}>
-                                        View
-                                    </Button>
-                                </div>
-                                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" style={{
-                                    boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.25), 0 0 60px rgba(0,255,209,0.12)"
-                                }} />
-                            </CardContent>
-                        </Card>
+                        <div key={ev.id} className="reveal-up" data-delay={`${i * 80}ms`}>
+                            <ElectricBorder
+                                color="#00FFD1"
+                                speed={1.5}
+                                chaos={0.3}
+                                thickness={2}
+                                style={{ borderRadius: 16 }}
+                            >
+                                <Card className="group bg-[#121212] border-0 rounded-xl overflow-hidden relative dark-hover transition-all duration-300 hover:scale-[1.02] m-2">
+                                    <CardHeader className="p-0">
+                                        <div className="aspect-video bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center relative overflow-hidden m-3 rounded-lg">
+                                            <img
+                                                src={`/images/events/${ev.id === 'clash' ? '1.jpeg' : ev.id === 'techforge' ? '2.jpeg' : 'EVENTS2Fexodiawe.jpeg'}`}
+                                                alt={ev.title}
+                                                className="w-full h-full object-cover rounded-lg"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                    e.target.nextSibling.style.display = 'flex';
+                                                }}
+                                            />
+                                            <div className="w-full h-full bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center absolute inset-0 rounded-lg" style={{ display: 'none' }}>
+                                                <div className="text-4xl font-bold text-[#00FFD1]">{ev.tag}</div>
+                                            </div>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent className="p-6 pt-0">
+                                        <div className="text-xs tracking-wide text-[#00FFD1] mb-2">{ev.tag}</div>
+                                        <NeonText className="heading-1 mb-3">{ev.title}</NeonText>
+                                        <p className="body-small text-white/70 min-h-[72px] mb-4">{ev.description}</p>
+                                        <div className="flex items-center justify-between">
+                                            <span className="text-white/50 text-xs">{ev.meta}</span>
+                                            <Button className="btn-secondary" onClick={() => toast("Mock: Details coming soon")}>
+                                                View
+                                            </Button>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            </ElectricBorder>
+                        </div>
                     ))}
                 </div>
             </section>
@@ -298,12 +250,41 @@ export default function LandingPage() {
                 <div className="text-center mb-12">
                     <NeonText className="display-medium reveal-fade">The People</NeonText>
                     <p className="body-small text-white/70 reveal-fade" data-delay="100ms">
-                        Futuristic monochrome portraits that spring to life on hover
+                        Interactive holographic profile cards with advanced 3D tilt effects
                     </p>
                 </div>
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-20 max-w-8xl mx-auto px-12 py-16">
                     {team.map((m, i) => (
-                        <TeamCard3D key={m.id} member={m} index={i} />
+                        <div key={m.id} className="reveal-up" data-delay={`${i * 80}ms`}>
+                            <PixelCard variant="green">
+                                <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#00FFD1]/30 mb-4">
+                                        <img
+                                            src={m.image}
+                                            alt={m.name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.nextSibling.style.display = 'flex';
+                                            }}
+                                        />
+                                        <div className="w-full h-full bg-[#00FFD1]/20 flex items-center justify-center text-2xl font-bold text-[#00FFD1]" style={{ display: 'none' }}>
+                                            {m.id}
+                                        </div>
+                                    </div>
+                                    <NeonText className="heading-2 mb-2 text-lg">{m.name}</NeonText>
+                                    <p className="body-small text-white/70 mb-4 text-sm">{m.role}</p>
+                                    <p className="body-small text-white/60 mb-6 text-xs px-2 leading-relaxed">{m.bio}</p>
+                                    <Button
+                                        className="btn-secondary px-6 py-2 text-sm"
+                                        onClick={() => toast(`Contact ${m.name}`)}
+                                        style={{ position: 'relative', zIndex: 10 }}
+                                    >
+                                        Connect
+                                    </Button>
+                                </div>
+                            </PixelCard>
+                        </div>
                     ))}
                 </div>
             </section>

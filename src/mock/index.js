@@ -84,12 +84,60 @@ export const sparks = [
 ];
 
 export const team = [
-  { id: "AA", name: "Aarav Anand", role: "Lead Coordinator" },
-  { id: "BV", name: "Adithya Anil", role: "Program Ops" },
-  { id: "CK", name: "Chirag Kumar", role: "Tech Lead" },
-  { id: "DS", name: "Divya S", role: "Design" },
-  { id: "EM", name: "Rahul M", role: "Community" },
-  { id: "FS", name: "Farhan Shah", role: "Mentor Relations" },
-  { id: "GP", name: "Gauri P", role: "Sponsorships" },
-  { id: "HK", name: "Harsh K", role: "Logistics" },
+  { 
+    id: "AA", 
+    name: "Emma Richardson", 
+    role: "Lead Coordinator",
+    image: "/images/profile1.jpeg",
+    bio: "Visionary leader driving innovation across all bootcamp initiatives."
+  },
+  { 
+    id: "BV", 
+    name: "Zara Williams", 
+    role: "Program Operations",
+    image: "/images/profile2.jpeg",
+    bio: "Operations expert ensuring seamless execution of all programs."
+  },
+  { 
+    id: "CK", 
+    name: "Marcus Johnson", 
+    role: "Tech Lead",
+    image: "/images/profile3.jpeg",
+    bio: "Full-stack developer and technical mentor for emerging technologies."
+  },
+  { 
+    id: "DS", 
+    name: "Kwame Asante", 
+    role: "Community Manager",
+    image: "/images/profile4.jpeg",
+    bio: "Building bridges between students, mentors, and industry partners."
+  },
+  { 
+    id: "EM", 
+    name: "Alex Thompson", 
+    role: "Design Director",
+    image: "/images/profile5.jpeg",
+    bio: "Creative strategist crafting compelling user experiences and brand identity."
+  },
+  { 
+    id: "FS", 
+    name: "Sofia Martinez", 
+    role: "Mentor Relations",
+    image: "/images/profile6.jpeg",
+    bio: "Connecting students with industry experts and thought leaders."
+  },
+  { 
+    id: "GP", 
+    name: "David Chen", 
+    role: "Partnerships",
+    image: "/images/profile7.jpeg",
+    bio: "Forging strategic alliances with leading companies and organizations."
+  },
+  { 
+    id: "HK", 
+    name: "Yuki Tanaka", 
+    role: "Innovation Catalyst",
+    image: "/images/profile8.jpeg",
+    bio: "Fostering breakthrough thinking and disruptive innovation methodologies."
+  },
 ];
