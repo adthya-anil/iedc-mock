@@ -188,7 +188,15 @@ function GradualBlur(props) {
       baseStyle.width = responsiveWidth || '100%';
       baseStyle[config.position] = 0;
       baseStyle.left = 0;
-      baseStyle.right = 0;
+      
+      if (isPageTarget) {
+        // For page-level blur, ensure it doesn't extend beyond viewport
+        baseStyle.right = '20px'; // Leave space for potential scrollbar
+        baseStyle.width = 'calc(100vw - 20px)';
+        baseStyle.maxWidth = 'calc(100vw - 20px)';
+      } else {
+        baseStyle.right = 0;
+      }
     } else if (isHorizontal) {
       baseStyle.width = responsiveWidth || responsiveHeight;
       baseStyle.height = '100%';

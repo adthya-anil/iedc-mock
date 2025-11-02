@@ -19,6 +19,7 @@ const NeonText = ({ children, className = "" }) => (
 // 3D tilt team card
 const TeamCard3D = ({ member, index }) => {
     const innerRef = useRef(null);
+    const [isHovered, setIsHovered] = useState(false);
 
     const handleMove = (e) => {
         const el = innerRef.current;
@@ -31,26 +32,45 @@ const TeamCard3D = ({ member, index }) => {
         el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
     };
 
+    const handleEnter = () => {
+        setIsHovered(true);
+    };
+
     const handleLeave = () => {
         const el = innerRef.current;
         if (!el) return;
         el.style.transform = `rotateX(0deg) rotateY(0deg)`;
+        setIsHovered(false);
     };
 
     const imgUrl = `https://picsum.photos/seed/${member.id}-${index}/640/880`;
 
     return (
-        <div className="card3d group reveal-scale" onMouseMove={handleMove} onMouseLeave={handleLeave}>
-            <div ref={innerRef} className="card3d-inner">
+        <div className="card3d reveal-scale">
+            <div
+                ref={innerRef}
+                className="card3d-inner"
+                onMouseMove={handleMove}
+                onMouseEnter={handleEnter}
+                onMouseLeave={handleLeave}
+            >
                 <div className="relative overflow-hidden rounded-xl border border-white/15 bg-[#0b0b0b]">
                     <img
                         src={imgUrl}
-                        alt={`${member.name}`}
-                        className="w-full h-72 object-cover transition duration-500 filter grayscale contrast-110 group-hover:grayscale-0 group-hover:saturate-150"
+                        alt={`${member.name} - ${member.role}`}
+                        className={`w-full h-72 object-cover transition duration-500 filter contrast-110 ${isHovered
+                            ? 'grayscale-0 saturate-150'
+                            : 'grayscale'
+                            }`}
+
                     />
-                    <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity" style={{
-                        boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.25), 0 0 60px rgba(0,255,209,0.12)"
-                    }} />
+                    <div
+                        className={`absolute inset-0 pointer-events-none transition-opacity ${isHovered ? 'opacity-100' : 'opacity-0'
+                            }`}
+                        style={{
+                            boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.25), 0 0 60px rgba(0,255,209,0.12)"
+                        }}
+                    />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                         <div className="flex items-center justify-between">
@@ -72,6 +92,29 @@ export default function LandingPage() {
     const audioRef = useRef(null);
 
     useReveal();
+
+    // Auto-start music on component mount
+    useEffect(() => {
+        const startAudio = async () => {
+            try {
+                if (!audioRef.current) {
+                    audioRef.current = new Audio('/assets/Interstellar Official Soundtrack  Cornfield Chase  Hans Zimmer  WaterTower.mp3');
+                    audioRef.current.loop = true;
+                    audioRef.current.volume = 0.25; // Set volume to 25%
+                }
+                await audioRef.current.play();
+                setAudioOn(true);
+                toast.success("Cinematic audio started", { duration: 2000 });
+            } catch (e) {
+                console.log("Autoplay blocked by browser - user interaction required");
+                // Don't show error toast for autoplay blocking, it's expected
+            }
+        };
+
+        // Small delay to let the page load first
+        const timer = setTimeout(startAudio, 1000);
+        return () => clearTimeout(timer);
+    }, []);
 
     const toggleAudio = async () => {
         if (!audioOn) {
@@ -131,34 +174,6 @@ export default function LandingPage() {
 
     return (
         <div className="dark-container" style={{ position: 'relative' }}>
-            {/* Global Liquid Ether Background */}
-            <div style={{ 
-                position: 'fixed', 
-                top: 0, 
-                left: 0, 
-                width: '100vw', 
-                height: '100vh', 
-                zIndex: -1,
-                pointerEvents: 'none'
-            }}>
-                <LiquidEther
-                    colors={['#00FFD1', '#6FD2C0', '#4DE6D1']}
-                    mouseForce={20}
-                    cursorSize={100}
-                    isViscous={false}
-                    viscous={30}
-                    iterationsViscous={32}
-                    iterationsPoisson={32}
-                    resolution={0.5}
-                    isBounce={false}
-                    autoDemo={true}
-                    autoSpeed={0.5}
-                    autoIntensity={2.2}
-                    takeoverDuration={0.25}
-                    autoResumeDelay={3000}
-                    autoRampDuration={0.6}
-                />
-            </div>
 
             {/* Global Gradual Blur Effect */}
             <GradualBlur
@@ -172,7 +187,7 @@ export default function LandingPage() {
                 opacity={0.9}
                 zIndex={10}
             />
-            
+
             {/* HERO: Title/buttons and full-span Spline in the SAME section */}
             <section className="relative hero-section">
                 {/* Spline behind, spanning full viewport */}
@@ -198,7 +213,7 @@ export default function LandingPage() {
                                 Learn More
                             </Button>
                             <Button variant="ghost" className={`btn-secondary ${audioOn ? 'ring-1 ring-[#00FFD1]/60' : ''}`} onClick={toggleAudio}>
-                                {audioOn ? 'Mute' : 'Play Ambience'}
+                                {audioOn ? '🔊 Mute Audio' : '🔇 Enable Audio'}
                             </Button>
                         </div>
                         <div className="scroll-cue reveal-fade" data-delay="220ms">
@@ -340,9 +355,9 @@ export default function LandingPage() {
                     </div>
                     <Accordion type="single" collapsible className="w-full reveal-up">
                         <AccordionItem value="item-1" className="border-b border-white/15">
-                            <AccordionTrigger className="text-white">Is this interactive?</AccordionTrigger>
+                            <AccordionTrigger className="text-white">FAQ SECTION</AccordionTrigger>
                             <AccordionContent className="text-white/70">
-                                FAQS.
+                                currently faqs about this website.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-2" className="border-b border-white/15">
