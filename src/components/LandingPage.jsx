@@ -21,7 +21,7 @@ const NeonText = ({ children, className = "" }) => (
 
 
 export default function LandingPage() {
-    const [audioOn, setAudioOn] = useState(false);
+    const [audioOn, setAudioOn] = useState(true);
     const audioRef = useRef(null);
 
     useReveal();
@@ -136,7 +136,7 @@ export default function LandingPage() {
                     <div className="space-y-6 hero-content">
                         <NeonText className="display-huge reveal-up">IEDC BOOTCAMP CEC</NeonText>
                         <p className="body-medium text-white/80 max-w-xl reveal-up" data-delay="80ms">
-                            A story of innovation. Aspire to Inspire.
+                            A story of innovation. Aspire to Inspire. Turn On Audio For A More Immersive Experience!!
                         </p>
                         <div className="flex items-center gap-4 reveal-up" data-delay="140ms">
                             <Button className="btn-primary dark-button-animate" onClick={onRegister}>
@@ -250,7 +250,7 @@ export default function LandingPage() {
                 <div className="text-center mb-12">
                     <NeonText className="display-medium reveal-fade">The People</NeonText>
                     <p className="body-small text-white/70 reveal-fade" data-delay="100ms">
-                        Interactive holographic profile cards with advanced 3D tilt effects
+                        The BackBone of Our Community! 
                     </p>
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-20 max-w-8xl mx-auto px-12 py-16">
