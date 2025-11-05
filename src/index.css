@@ -117,5 +117,6 @@ code {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: "Michroma", sans-serif !important;
   }
 }
