@@ -250,7 +250,7 @@ export default function LandingPage() {
                 <div className="text-center mb-12">
                     <NeonText className="display-medium reveal-fade">The People</NeonText>
                     <p className="body-small text-white/70 reveal-fade" data-delay="100ms">
-                        The BackBone of Our Community! 
+                        The BackBone of Our Community!
                     </p>
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-20 max-w-8xl mx-auto px-12 py-16">
